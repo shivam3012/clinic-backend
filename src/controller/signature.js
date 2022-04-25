@@ -11,11 +11,11 @@ module.exports = {
       let count = req.body.count;
       if (chainId && account && count) {
         if (config.CHAIN_ID.indexOf(chainId), chainId == -1) {
-          res.status(500).json(`Invalid Chain id`);
+          res.status(400).json(`Invalid Chain id`);
         }
         let whitelistArray = config.WHITELIST.map(el => el.toLowerCase());
         if (whitelistArray.includes(account) == false) {
-          return res.status(500).json(`Not whitelisted`);
+          return res.status(400).json(`Not whitelisted`);
         }
 
         //2 hours added
@@ -44,7 +44,7 @@ module.exports = {
         // console.log(signedData);
         res.status(200).json(signedData);
       } else {
-        res.status(500).json(`Invalid input data`);
+        res.status(400).json(`Invalid input data`);
       }
     } catch (e) {
       console.log(e)

@@ -6,26 +6,26 @@ module.exports = {
 
   signData: async (req, res, next) => {
     try {
-      let ADDRESS;
       let chainId = req.body.chainId;
-      let account = req.body.account;
+      let account = req.body.account.toLowerCase();
       let count = req.body.count;
       if (chainId && account && count) {
         if (config.CHAIN_ID.indexOf(chainId), chainId == -1) {
           res.status(500).json(`Invalid Chain id`);
         }
-
-        if (config.WHITELIST.includes(account) == false) {
-          return res.status(500).json(`Invalid data`);
+        let whitelistArray = config.WHITELIST.map(el => el.toLowerCase());
+        if (whitelistArray.includes(account) == false) {
+          return res.status(500).json(`Not whitelisted`);
         }
 
         //2 hours added
         const deadline = Date.now() + (2 * 60 * 60 * 1000);
 
         let encodeData = web3.eth.abi.encodeParameters(["address", "address", "uint256", "uint256"], [
-          ADDRESS,
+          config.NFT_ADDRESS,
           account,
-          count
+          count,
+          deadline
         ]);
 
         let hash = web3.utils.keccak256(encodeData);

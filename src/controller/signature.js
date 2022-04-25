@@ -1,11 +1,12 @@
 const Web3 = require("web3");
 const config = require("../config/config");
+const web3 = new Web3(new Web3.providers.HttpProvider(config.ETH_HTTP));
 
 module.exports = {
 
   signData: async (req, res, next) => {
     try {
-      let ABI, ADDRESS, WEB3;
+      let ADDRESS;
       let chainId = req.body.chainId;
       let account = req.body.account;
       let count = req.body.count;
@@ -14,22 +15,22 @@ module.exports = {
           res.status(500).json(`Invalid Chain id`);
         }
 
-
         if (config.WHITELIST.includes(account) == false) {
           return res.status(500).json(`Invalid data`);
         }
 
-        const deadline = Date.now() + (1000 * 60 * 10);
+        //2 hours added
+        const deadline = Date.now() + (2 * 60 * 60 * 1000);
 
-        let encodeData = web3_eth.eth.abi.encodeParameters(["address", "address", "uint256"], [
+        let encodeData = web3.eth.abi.encodeParameters(["address", "address", "uint256", "uint256"], [
           ADDRESS,
           account,
           count
         ]);
 
-        let hash = web3_eth.utils.keccak256(encodeData);
+        let hash = web3.utils.keccak256(encodeData);
 
-        let signedData = web3_eth.eth.accounts.sign(hash, config.PRIVATE_KEY);
+        let signedData = web3.eth.accounts.sign(hash, config.PRIVATE_KEY);
 
         // console.log(encodeData);
 

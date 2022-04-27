@@ -5,7 +5,8 @@ module.exports = {
     //Ethereum
     CHAIN_ID: [1, 4],
     WHITELIST: [
-        "0xd563ec07543d20fB24de0dAd6Ac548A09A0c4873"
+        "0xd563ec07543d20fB24de0dAd6Ac548A09A0c4873",
+        "0x319D2e25F82c821F8cE4171bbE576d42d74d1277"
     ],
     NFT_ADDRESS: "0x2aACB0EB22371934D02aa10A85FF19c2B360Ac50"
 }
